@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Wird von PlayerInput (Send Messages) aufgerufen, wenn Action "Move" existiert
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -23,6 +22,36 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 next = rb.position + moveInput * (moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(next);
+    }
+}*/
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody2D))]
+public class PlayerMovement : MonoBehaviour
+{
+    [SerializeField] private float moveSpeed = 5f;
+
+    private Rigidbody2D rb;
+    private Vector2 moveInput;
+
+    public Vector2 CurrentVelocity { get; private set; }
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+    }
+
+    private void FixedUpdate()
+    {
+        CurrentVelocity = moveInput * moveSpeed;
+
+        Vector2 next = rb.position + CurrentVelocity * Time.fixedDeltaTime;
         rb.MovePosition(next);
     }
 }
