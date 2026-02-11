@@ -6,8 +6,8 @@ public enum SurfaceType
     Tile,
     Grass,
     Sand,
-    Bed,
-    Glass,
+    Soft,
+    Window,
     Water,
     Wall
 }
