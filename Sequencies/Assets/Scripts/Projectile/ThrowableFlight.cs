@@ -178,8 +178,8 @@ public class ThrowableFlight : MonoBehaviour
     [SerializeField] private float arcHeight = 0.02f;
     [SerializeField] private float impactRadius = 0.25f;
 
-    [Header("Detection (später)")]
-    [SerializeField] private LayerMask surfaceMask = ~0; // Everything
+    [Header("Detection")]
+    [SerializeField] private LayerMask surfaceMask = ~0;
 
     private Vector3 startPos;
     private Vector3 targetPos;
@@ -236,7 +236,7 @@ public class ThrowableFlight : MonoBehaviour
             Land();
     }
 
-    private void Land()
+    /*private void Land()
     {
         active = false;
 
@@ -248,8 +248,46 @@ public class ThrowableFlight : MonoBehaviour
             Debug.Log("Impact on: (nothing) -> default ground");
 
         transform.position = targetPos;
-    }
+    }*/
+    /*private void Land()
+    {
+        active = false;
 
+        // 1) Auf den Landepunkt snappen (damit die Probe garantiert stimmt)
+        transform.position = targetPos;
+
+        // 2) Genau dort prüfen
+        Vector2 impactPoint = (Vector2)transform.position;
+
+        Collider2D hit = Physics2D.OverlapCircle(impactPoint, impactRadius, surfaceMask);
+
+        if (hit != null)
+            Debug.Log($"Impact on: {hit.gameObject.name} (Tag: {hit.tag})");
+        else
+            Debug.Log("Impact on: (nothing) -> default ground");
+    }*/
+    private void Land()
+    {
+        active = false;
+
+        transform.position = targetPos; // sicher am Ziel
+
+        Vector2 impactPoint = (Vector2)transform.position;
+        Collider2D hit = Physics2D.OverlapCircle(impactPoint, impactRadius, surfaceMask);
+
+        if (hit != null)
+        {
+            var surface = hit.GetComponent<SurfaceMaterial>();
+            if (surface != null)
+                Debug.Log($"Impact: {surface.type}  ({hit.gameObject.name})");
+            else
+                Debug.Log($"Impact: (no SurfaceMaterial) Tag={hit.tag}  ({hit.gameObject.name})");
+        }
+        else
+        {
+            Debug.Log("Impact: (nothing) -> not on Surface layer");
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(targetPos, impactRadius);
