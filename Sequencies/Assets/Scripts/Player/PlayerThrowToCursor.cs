@@ -38,7 +38,6 @@ public class PlayerThrowToCursor : MonoBehaviour
             Throw();
         }
     }
-
     private void Throw()
     {
         if (stonePrefab == null) return;

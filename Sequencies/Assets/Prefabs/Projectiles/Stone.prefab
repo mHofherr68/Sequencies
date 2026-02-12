@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2400450575667902398}
   - component: {fileID: 5694542136862468749}
   - component: {fileID: -6566667768327085835}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,9 +103,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3ce363680bee943abcd0f7c511efc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowableFlight
-  flightSpeed: 10
-  arcHeight: 0.3
   impactRadius: 0.25
   surfaceMask:
     serializedVersion: 2
     m_Bits: 8
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 64
+  wallDistance: 0.02
+  wallBounceDistanceMin: 0.2
+  wallBounceDistanceMax: 0.6
+  wallBounceSpeed: 6
+  wallBounceDrag: 4
