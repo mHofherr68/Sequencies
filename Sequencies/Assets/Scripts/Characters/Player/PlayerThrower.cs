@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerThrowToCursor : MonoBehaviour
+public class PlayerThrower : MonoBehaviour
 {
     [Header("Prefab")]
     [SerializeField] private GameObject stonePrefab;
@@ -19,12 +19,12 @@ public class PlayerThrowToCursor : MonoBehaviour
 
     private float lastThrowTime;
     private Camera cam;
-    private PlayerMovement movement;
+    private PlayerController movement;
 
     private void Awake()
     {
         cam = Camera.main;
-        movement = GetComponent<PlayerMovement>();
+        movement = GetComponent<PlayerController>();
     }
 
     private void Update()

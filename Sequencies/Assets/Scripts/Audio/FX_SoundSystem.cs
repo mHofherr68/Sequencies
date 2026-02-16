@@ -81,11 +81,12 @@ public class FX_SoundSystem : MonoBehaviour
 
         I = this;
 
-        // Wenn du es unter einem Root-Objekt wie "_Audio" gruppierst:
         DontDestroyOnLoad(transform.root.gameObject);
 
         if (source == null)
+        {
             source = GetComponent<AudioSource>();
+        }
     }
 
     /// <summary>
