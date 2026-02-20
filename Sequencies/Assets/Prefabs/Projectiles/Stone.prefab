@@ -28,13 +28,14 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5694542136862468749
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -78,10 +79,11 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 194102805
-  m_SortingLayer: 3
+  m_SortingLayer: 8
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.79572856, b: 0, a: 1}
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: a041fc506d81edd498fa97dc88c74b69, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -89,7 +91,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &-6566667768327085835
 MonoBehaviour:
@@ -115,3 +116,8 @@ MonoBehaviour:
   wallBounceDistanceMax: 0.6
   wallBounceSpeed: 6
   wallBounceDrag: 4
+  easeOutOnVerticalThrows: 1
+  verticalSpeedMulStart: 1.35
+  verticalSpeedMulEnd: 0.25
+  pickupPrefab: {fileID: 6018358593120740473, guid: 861e378f06b626749bea61ec2e030bab, type: 3}
+  spawnPickupOnLand: 1
