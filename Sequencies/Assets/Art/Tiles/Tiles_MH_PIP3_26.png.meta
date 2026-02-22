@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: dc7581badfdecd448a43b64c22097fcc
+guid: 408c12de971e2bf4c918d40021db304e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 209402798374226148
-    second: Stone_Inventar_0
+      213: 3929931059667970512
+    second: Tiles_MH_PIP3_26_0
+  - first:
+      213: -7662714451647551391
+    second: Tiles_MH_PIP3_26_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stone_Inventar_0
+      name: Tiles_MH_PIP3_26_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 32
-        height: 64
+        y: 255
+        width: 512
+        height: 257
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +144,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e881145cb2f7e200800000000000000
-      internalID: 209402798374226148
+      spriteID: 0d9a8432a7be98630800000000000000
+      internalID: 3929931059667970512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_MH_PIP3_26_1
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 7
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 168ab461ec198a590800000000000000
+      internalID: -7662714451647551391
       vertices: []
       indices: 
       edges: []
@@ -161,7 +186,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Stone_Inventar_0: 209402798374226148
+      Tiles_MH_PIP3_26_0: 3929931059667970512
+      Tiles_MH_PIP3_26_1: -7662714451647551391
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

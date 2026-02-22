@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: aa78628dd7ce16346b7cfcc7904ccd3f
+guid: b345264932037e24887cbe798594be41
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8883008127359253706
-    second: BookInventar_0
+      213: -727990388853961587
+    second: DrinkInventory_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BookInventar_0
+      name: DrinkInventory_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 63308df1c2739b480800000000000000
-      internalID: -8883008127359253706
+      spriteID: d8c06703998a5e5f0800000000000000
+      internalID: -727990388853961587
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BookInventar_0: -8883008127359253706
+      DrinkInventory_0: -727990388853961587
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

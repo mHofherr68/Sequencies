@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5544219667536520026}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -295,3 +295,4 @@ MonoBehaviour:
   animator: {fileID: 1416585877596202707}
   sceneToLoad: SC_Level_02
   extraDelay: 0.3
+  loadAsync: 1

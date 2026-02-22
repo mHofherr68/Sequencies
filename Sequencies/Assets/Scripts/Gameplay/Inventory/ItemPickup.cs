@@ -1,27 +1,3 @@
-/*using UnityEngine;
-
-[RequireComponent(typeof(Collider2D))]
-public class ItemPickup : MonoBehaviour
-{
-    [SerializeField] private ItemType itemType = ItemType.Stone;
-    [SerializeField] private int amount = 1;
-
-    private void Reset()
-    {
-        var c = GetComponent<Collider2D>();
-        c.isTrigger = true;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!other.CompareTag("Player")) return;
-        if (InventoryManager.I == null) return;
-
-        bool added = InventoryManager.I.TryAdd(itemType, amount);
-        if (added)
-            Destroy(gameObject);
-    }
-}*/
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
