@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3099627356397081030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3120068708231247509}
+  - component: {fileID: 2293884679562759787}
+  m_Layer: 0
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3120068708231247509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3099627356397081030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5590510680551168821}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2293884679562759787
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3099627356397081030}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.05}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.2, y: 0.3}
+  m_EdgeRadius: 0
 --- !u!1 &8731905194147811155
 GameObject:
   m_ObjectHideFlags: 0
@@ -17,6 +95,7 @@ GameObject:
   - component: {fileID: 6003955434365988802}
   - component: {fileID: 5267823413678597430}
   - component: {fileID: 5688765902941355857}
+  - component: {fileID: 7604072200899543763}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -34,9 +113,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8, y: 5, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3120068708231247509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &959544049563996628
@@ -85,7 +165,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 194102805
-  m_SortingLayer: 3
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 21ae12909dfa64464820da55fc494021, type: 3}
@@ -205,6 +285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TopDownMovement2D
   moveSpeed: 5
+  clapCooldown: 0.6
+  ghostSpawner: {fileID: 0}
 --- !u!114 &6003955434365988802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,9 +299,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e561463766ac04b891901507bf536b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerThrowToCursor
-  stonePrefab: {fileID: 2254298810342222998, guid: b085aa9d07324bf45bfd6626b39b63a3, type: 3}
+  projectilePrefabs:
+  - type: 0
+    projectilePrefab: {fileID: 2254298810342222998, guid: b085aa9d07324bf45bfd6626b39b63a3, type: 3}
+  - type: 1
+    projectilePrefab: {fileID: 8304458598760550688, guid: b2187dbdb874e4144b55aa213472583b, type: 3}
+  - type: 2
+    projectilePrefab: {fileID: 3229334648427796624, guid: 169744650442c584681ec7f1f1989494, type: 3}
+  - type: 3
+    projectilePrefab: {fileID: 6560169177811777986, guid: 6206942d15efa814b8ca476e8b810bb2, type: 3}
   throwCooldown: 0.6
   spawnOffset: 0.5
+  maxThrowRange: 6
   flightSpeed: 10
   arcHeight: 0.02
   inheritFactor: 0.1
@@ -257,3 +348,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7604072200899543763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731905194147811155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fba5fbcb739ec44f87b4b7d4f2420aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHP: 100
+  currentHP: 80
+  hud: {fileID: 0}
+  loadSceneOnDeath: 1
+  sceneToLoadOnDeath: {fileID: 102900000, guid: a0d76be3de89b364ebf7e4c5c85ad2c5, type: 3}
+  sceneName: SC_GameOver
+  loadAsync: 1
+  extraDelay: 0.2

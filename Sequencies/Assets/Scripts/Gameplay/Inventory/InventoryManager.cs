@@ -85,7 +85,6 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
-    // ? Erlaubter Weg für UX-Text (Event bleibt trotzdem geschützt)
     public void ShowMessage(string msg)
     {
         if (string.IsNullOrWhiteSpace(msg)) return;
