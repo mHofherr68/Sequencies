@@ -43,3 +43,7 @@ sysinfo.txt
 # Optional / safety
 CrashReports/
 Backup/
+Sequencies/Assets/Art/Sprites/Inventar.meta
+Sequencies/Assets/Art/Sprites/Inventar/BookInventar.png.meta
+Sequencies/Assets/Art/Sprites/Inventar/Stone_Inventar.png.meta
+Sequencies/Assets/Media/Images/InventoryBar2.png

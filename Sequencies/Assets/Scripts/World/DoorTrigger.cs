@@ -1,90 +1,36 @@
-/*using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
-
-public class DoorTrigger : MonoBehaviour
-{
-    [SerializeField] private Animator animator;
-    [SerializeField] private string sceneToLoad = "SC_Level_02";
-    [SerializeField] private float extraDelay = 0.2f;
-
-    [Header("Async Loading")]
-    [Tooltip("Wenn true: Szene wird im Hintergrund geladen und nach der Türanimation aktiviert.")]
-    [SerializeField] private bool loadAsync = true;
-
-    private bool triggered = false;
-
-    private void Awake()
-    {
-        if (animator == null)
-            animator = GetComponentInParent<Animator>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (triggered) return;
-        if (!other.CompareTag("Player")) return;
-
-        triggered = true;
-        StartCoroutine(OpenAndLoad());
-    }
-
-    private IEnumerator OpenAndLoad()
-    {
-        if (animator == null)
-            yield break;
-
-        animator.SetTrigger("Open");
-
-        yield return new WaitUntil(() =>
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Door_01Opens")
-        );
-
-        yield return new WaitUntil(() =>
-            animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f
-        );
-
-        yield return new WaitForSeconds(extraDelay);
-
-        if (!loadAsync)
-        {
-            SceneManager.LoadScene(sceneToLoad);
-            yield break;
-        }
-
-        AsyncOperation op = SceneManager.LoadSceneAsync(sceneToLoad);
-        if (op == null) yield break;
-
-        op.allowSceneActivation = false;
-
-        while (op.progress < 0.9f)
-            yield return null;
-
-        op.allowSceneActivation = true;
-
-        while (!op.isDone)
-            yield return null;
-    }
-}*/
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class DoorTrigger : MonoBehaviour
 {
+    [Header("Door")]
     [SerializeField] private Animator animator;
     [SerializeField] private string sceneToLoad = "SC_Level_02";
     [SerializeField] private float extraDelay = 0.2f;
+
+    [Header("Prompt UI (InventoryMessage -> MessageText)")]
+    [SerializeField] private TMP_Text messageText;
+    [SerializeField] private string promptText = "Tür öffnen? \"E\"";
+    [SerializeField] private bool clearTextOnExit = true;
+
+    [Header("Input (New Input System)")]
+    [SerializeField] private Key interactKey = Key.E;
 
     [Header("Audio")]
-    [Tooltip("Sound-Key für FX_SoundSystem (z.B. 'Door').")]
     [SerializeField] private string doorSoundKey = "Door";
 
     [Header("Async Loading")]
-    [Tooltip("Wenn true: Szene wird im Hintergrund geladen und nach der Türanimation aktiviert.")]
     [SerializeField] private bool loadAsync = true;
 
+    private bool playerInside = false;
     private bool triggered = false;
+
+    // cached player controller while inside trigger (no Find spam)
+    private PlayerController cachedPlayer;
 
     private void Awake()
     {
@@ -92,13 +38,68 @@ public class DoorTrigger : MonoBehaviour
             animator = GetComponentInParent<Animator>();
     }
 
+    private void Update()
+    {
+        if (triggered) return;
+        if (!playerInside) return;
+
+        if (Keyboard.current == null) return;
+
+        KeyControl key = Keyboard.current[interactKey];
+        if (key != null && key.wasPressedThisFrame)
+        {
+            triggered = true;
+
+            // freeze player movement immediately (before animation/loading)
+            if (cachedPlayer != null)
+                cachedPlayer.SetMovementEnabled(false);
+
+            HidePrompt();
+            StartCoroutine(OpenAndLoad());
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (triggered) return;
         if (!other.CompareTag("Player")) return;
 
-        triggered = true;
-        StartCoroutine(OpenAndLoad());
+        playerInside = true;
+
+        // Cache PlayerController (works with HurtBox child colliders too)
+        cachedPlayer = other.GetComponentInParent<PlayerController>();
+
+        ShowPrompt();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        playerInside = false;
+
+        if (!triggered)
+            HidePrompt();
+
+        cachedPlayer = null;
+    }
+
+    private void ShowPrompt()
+    {
+        if (messageText == null) return;
+
+        messageText.gameObject.SetActive(true);
+        messageText.text = promptText;
+    }
+
+    private void HidePrompt()
+    {
+        if (messageText == null) return;
+
+        if (clearTextOnExit)
+            messageText.text = string.Empty;
+
+        messageText.gameObject.SetActive(false);
     }
 
     private IEnumerator OpenAndLoad()

@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 194102805
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4536642028301893918, guid: f185d1a7a2ce86a4badbd45846babb2e, type: 3}
@@ -137,7 +137,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
 --- !u!114 &3983962635286255137
 MonoBehaviour:
@@ -155,4 +155,6 @@ MonoBehaviour:
   amount: 1
   usable: 1
   healPercent: 0.2
+  enableSpawn: 1
+  ghostSpawner: {fileID: 0}
   debugLogs: 0

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1416585877596202707}
   - component: {fileID: 2136170206366864905}
   - component: {fileID: 5544219667536520026}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Door
-  m_TagString: Door
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 3392969029258718297}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.5, y: 21.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 176898066772406717}
@@ -81,8 +81,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -167434189
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1718033193, guid: bdf1fc7f521f1de44b30a0629371c861, type: 3}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 176898066772406717}
   - component: {fileID: 7039234402169810570}
   - component: {fileID: 1288335116050775982}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DoorTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -1.5}
+  m_Offset: {x: -0.016780853, y: -0.87903595}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -278,7 +278,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3, y: 2}
+  m_Size: {x: 1.4224167, y: 0.7580719}
   m_EdgeRadius: 0
 --- !u!114 &1288335116050775982
 MonoBehaviour:
@@ -293,6 +293,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door01Trigger
   animator: {fileID: 1416585877596202707}
-  sceneToLoad: SC_Level_02
-  extraDelay: 0.3
+  sceneToLoad: SC_GameOver
+  extraDelay: 2.5
+  messageText: {fileID: 0}
+  promptText: "T\xFCr \xF6ffnen? \"E\""
+  clearTextOnExit: 1
+  interactKey: 19
+  doorSoundKey: Door
   loadAsync: 1

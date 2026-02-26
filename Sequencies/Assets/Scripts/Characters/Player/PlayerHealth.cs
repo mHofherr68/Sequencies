@@ -1,4 +1,10 @@
-/*using UnityEngine;
+/*using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -7,12 +13,35 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int currentHP = 100;
 
     [Header("HUD")]
-    [Tooltip("Optional. Wenn leer, sucht es beim Start automatisch ein HUD_HealthDisplay in der Szene.")]
     [SerializeField] private HUD_HealthDisplay hud;
+
+    [Header("Death -> Level Change")]
+    [SerializeField] private bool loadSceneOnDeath = true;
+
+#if UNITY_EDITOR
+
+    [SerializeField] private SceneAsset sceneToLoadOnDeath;
+#endif
+
+    [SerializeField, HideInInspector]
+    private string sceneName;
+
+    [SerializeField] private bool loadAsync = true;
+    [SerializeField] private float extraDelay = 0.2f;
+
+    private bool isDead;
+    private Coroutine deathRoutine;
 
     public int MaxHP => maxHP;
     public int CurrentHP => currentHP;
 
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (sceneToLoadOnDeath != null)
+            sceneName = sceneToLoadOnDeath.name;
+    }
+#endif
     private void Awake()
     {
         maxHP = Mathf.Max(1, maxHP);
@@ -21,15 +50,18 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
-        // Auto-find (deadline-safe)
         if (hud == null)
             hud = FindFirstObjectByType<HUD_HealthDisplay>();
 
         PushToHUD();
+
+        if (currentHP <= 0)
+            HandleDeathOnce();
     }
 
     public void Damage(int amount)
     {
+        if (isDead) return;
         if (amount <= 0) return;
 
         int before = currentHP;
@@ -37,10 +69,13 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHP != before)
             PushToHUD();
-    }
 
+        if (currentHP <= 0)
+            HandleDeathOnce();
+    }
     public void Heal(int amount)
     {
+        if (isDead) return;
         if (amount <= 0) return;
 
         int before = currentHP;
@@ -49,22 +84,63 @@ public class PlayerHealth : MonoBehaviour
         if (currentHP != before)
             PushToHUD();
     }
-
     public void SetHP(int newHP)
     {
+        if (isDead) return;
+
         int before = currentHP;
         currentHP = Mathf.Clamp(newHP, 0, maxHP);
 
         if (currentHP != before)
             PushToHUD();
-    }
 
+        if (currentHP <= 0)
+            HandleDeathOnce();
+    }
     private void PushToHUD()
     {
         if (hud == null) return;
-
-        // HUD bekommt HP/MaxHP -> füllt deinen Kreis in 10er Schritten (je nach HUD-Setup)
         hud.SetPlayerHP(currentHP, maxHP);
+    }
+    private void HandleDeathOnce()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (!loadSceneOnDeath) return;
+
+        if (deathRoutine != null) StopCoroutine(deathRoutine);
+        deathRoutine = StartCoroutine(DeathLoadRoutine());
+    }
+    private IEnumerator DeathLoadRoutine()
+    {
+        if (extraDelay > 0f)
+            yield return new WaitForSeconds(extraDelay);
+
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogWarning("[PlayerHealth] sceneName is empty. Assign a SceneAsset in the inspector (Editor) or set sceneName manually.");
+            yield break;
+        }
+
+        if (!loadAsync)
+        {
+            SceneManager.LoadScene(sceneName);
+            yield break;
+        }
+
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+        if (op == null) yield break;
+
+        op.allowSceneActivation = false;
+
+        while (op.progress < 0.9f)
+            yield return null;
+
+        op.allowSceneActivation = true;
+
+        while (!op.isDone)
+            yield return null;
     }
 }*/
 using System.Collections;
@@ -81,26 +157,24 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int maxHP = 100;
     [SerializeField] private int currentHP = 100;
 
+    // NEW: persist HP across scene loads (runtime only)
+    // -1 means "not initialized yet"
+    private static int savedHP = -1;
+
     [Header("HUD")]
-    [Tooltip("Optional. Wenn leer, sucht es beim Start automatisch ein HUD_HealthDisplay in der Szene.")]
     [SerializeField] private HUD_HealthDisplay hud;
 
     [Header("Death -> Level Change")]
-    [Tooltip("Wenn true: bei HP=0 wird eine Szene geladen.")]
     [SerializeField] private bool loadSceneOnDeath = true;
 
 #if UNITY_EDITOR
-    [Tooltip("Szene per Drag&Drop. (Build-safe: zur Laufzeit wird nur der Szenen-Name verwendet.)")]
     [SerializeField] private SceneAsset sceneToLoadOnDeath;
 #endif
 
     [SerializeField, HideInInspector]
     private string sceneName;
 
-    [Tooltip("Wenn true: Szene wird async geladen und nach optionalem Delay aktiviert.")]
     [SerializeField] private bool loadAsync = true;
-
-    [Tooltip("Extra Delay bevor geladen wird (z.B. für SFX/FX).")]
     [SerializeField] private float extraDelay = 0.2f;
 
     private bool isDead;
@@ -120,7 +194,12 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         maxHP = Mathf.Max(1, maxHP);
-        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+
+        // NEW: restore saved HP if we already have one
+        if (savedHP >= 0)
+            currentHP = Mathf.Clamp(savedHP, 0, maxHP);
+        else
+            currentHP = Mathf.Clamp(currentHP, 0, maxHP);
     }
 
     private void Start()
@@ -143,7 +222,10 @@ public class PlayerHealth : MonoBehaviour
         currentHP = Mathf.Clamp(currentHP - amount, 0, maxHP);
 
         if (currentHP != before)
+        {
+            savedHP = currentHP; // NEW: persist
             PushToHUD();
+        }
 
         if (currentHP <= 0)
             HandleDeathOnce();
@@ -158,7 +240,10 @@ public class PlayerHealth : MonoBehaviour
         currentHP = Mathf.Clamp(currentHP + amount, 0, maxHP);
 
         if (currentHP != before)
+        {
+            savedHP = currentHP; // NEW: persist
             PushToHUD();
+        }
     }
 
     public void SetHP(int newHP)
@@ -169,10 +254,23 @@ public class PlayerHealth : MonoBehaviour
         currentHP = Mathf.Clamp(newHP, 0, maxHP);
 
         if (currentHP != before)
+        {
+            savedHP = currentHP; // NEW: persist
             PushToHUD();
+        }
 
         if (currentHP <= 0)
             HandleDeathOnce();
+    }
+
+    // OPTIONAL: call this if you ever want to reset HP to full manually
+    public void ResetToFull()
+    {
+        if (isDead) return;
+
+        currentHP = maxHP;
+        savedHP = currentHP;
+        PushToHUD();
     }
 
     private void PushToHUD()
@@ -185,6 +283,10 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        // NEW: on death, clear saved HP so next run/scene can start clean (optional)
+        // If you want the player to stay dead across scene loads, remove this line.
+        savedHP = -1;
 
         if (!loadSceneOnDeath) return;
 
@@ -223,4 +325,3 @@ public class PlayerHealth : MonoBehaviour
             yield return null;
     }
 }
-
