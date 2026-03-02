@@ -1,4 +1,5 @@
 using UnityEngine;          // WallTopBarier blocks over-throw AND triggers sidewall drop
+
 public class ThrowableFlight : MonoBehaviour
 {
     [Header("Impact")]
@@ -15,6 +16,15 @@ public class ThrowableFlight : MonoBehaviour
 
     // TopCollider on TM_Wall_02 (child) to prevent throwing over from above
     [SerializeField] private LayerMask wallTopBarier = 0; // set to WallTopBarier
+
+    [Header("Ghost Noise (from this projectile)")]
+    [Tooltip("Optional: im Inspector setzen. Wenn leer, nutzt er GhostSpawner.I (persistent).")]
+    [SerializeField] private GhostSpawner ghostSpawner;
+
+    [Tooltip("Wenn true: Projectile-Sound-Events (Wall/Surface) versuchen GhostNoise auszulösen (wenn Player es erlaubt).")]
+    [SerializeField] private bool triggerGhostOnNoise = true;
+
+    private PlayerController playerController;
 
     [Header("Wall Bounce")]
     [SerializeField] private float wallDistance = 0.05f;
@@ -75,6 +85,14 @@ public class ThrowableFlight : MonoBehaviour
 
     public void Init(Vector3 targetWorldPos, float speed, float arc, Vector2 inherited)
     {
+        // Resolve persistent spawner
+        if (ghostSpawner == null)
+            ghostSpawner = GhostSpawner.I;
+
+        // Resolve player once (so we can ask "is ghost spawning enabled?")
+        if (playerController == null)
+            playerController = FindFirstObjectByType<PlayerController>();
+
         Vector3 start = transform.position;
         start.z = 0f;
 
@@ -240,7 +258,8 @@ public class ThrowableFlight : MonoBehaviour
         {
             if (!isBouncing && bounceDir == Vector2.zero && sideDropPlanned)
             {
-                FX_SoundSystem.I?.PlayHit("Wall", firstHit: true);
+                // Sidewall entry noise (Wall)
+                PlayNoise("Wall", (Vector2)groundPos, firstHit: true);
 
                 sideDropPlanned = false;
                 sideSlidingDown = true;
@@ -262,6 +281,7 @@ public class ThrowableFlight : MonoBehaviour
             Land();
         }
     }
+
     private void StartSideSpiralDrop()
     {
         sideSpiralDropPending = false;
@@ -286,9 +306,12 @@ public class ThrowableFlight : MonoBehaviour
 
         bounceDir = Vector2.zero;
     }
+
     private void StartBounce()
     {
-        FX_SoundSystem.I?.PlayHit("Wall", firstHit: true);
+        // Bounce noise (Wall)
+        PlayNoise("Wall", (Vector2)groundPos, firstHit: true);
+
         isBouncing = true;
         currentBounceSpeed = wallBounceSpeed;
 
@@ -361,13 +384,19 @@ public class ThrowableFlight : MonoBehaviour
 
             var surface = hit.GetComponent<MaterialHit>();
             if (surface != null)
+            {
                 Debug.Log($"Impact: {surface.type} ({hit.gameObject.name})");
 
-            if (window == null && surface != null)
-                FX_SoundSystem.I?.PlayHit(surface.type, firstHit: true);
-
-            if (surface == null)
+                if (window == null)
+                {
+                    // Surface impact noise (Grass/Wood/etc.)
+                    PlayNoise(surface.type.ToString(), impactPoint, firstHit: true);
+                }
+            }
+            else
+            {
                 Debug.Log($"Impact: (no SurfaceMaterial) Tag={hit.tag} ({hit.gameObject.name})");
+            }
         }
         else
         {
@@ -386,6 +415,7 @@ public class ThrowableFlight : MonoBehaviour
 
         Destroy(gameObject);
     }
+
     private void RecomputeArc(Vector3 fromGround, Vector3 toGround)
     {
         groundStart = fromGround;
@@ -402,8 +432,33 @@ public class ThrowableFlight : MonoBehaviour
 
         totalGroundDistance = Vector3.Distance(groundStart, groundTarget);
     }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(groundTarget, impactRadius);
+    }
+
+    // ============================================================
+    // Unified "Noise" helper
+    // Plays sound AND triggers ghost noise at a given position (if Player allows it).
+    // ============================================================
+    private void PlayNoise(string soundKey, Vector2 worldPos, bool firstHit)
+    {
+        // 1) Play sound (existing system)
+        FX_SoundSystem.I?.PlayHit(soundKey, firstHit);
+
+        // 2) Trigger ghost noise only if enabled (projectile toggle) AND player allows it
+        if (!triggerGhostOnNoise) return;
+
+        // Resolve player if needed (handles scene changes)
+        if (playerController == null)
+            playerController = FindFirstObjectByType<PlayerController>();
+
+        if (playerController != null && !playerController.GhostSpawningEnabled)
+            return;
+
+        GhostSpawner spawner = ghostSpawner != null ? ghostSpawner : GhostSpawner.I;
+        if (spawner != null)
+            spawner.SpawnGhostTo(worldPos);
     }
 }

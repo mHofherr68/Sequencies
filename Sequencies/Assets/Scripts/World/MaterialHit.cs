@@ -4,6 +4,7 @@ public enum SurfaceType
 {
     Wood,
     Tile,
+    Concrete,
     Grass,
     Sand,
     Soft,

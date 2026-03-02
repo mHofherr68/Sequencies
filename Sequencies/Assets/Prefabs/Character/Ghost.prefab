@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8226325406225341075}
   - component: {fileID: 1600013832217713690}
   - component: {fileID: 7854753464008766353}
+  - component: {fileID: -2415545148626828211}
   m_Layer: 9
   m_Name: Ghost
   m_TagString: Enemy
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -959572109
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2759743397395473668, guid: 59b52509bde45fe4792381d9e6527457, type: 3}
@@ -156,7 +157,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.15
+  m_Radius: 0.3
 --- !u!114 &7854753464008766353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,12 +170,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b581ee23a34f0b4081b4df066f9ea32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GhostEnemyController
-  moveSpeed: 2.5
+  moveSpeed: 3.2
   arriveDistance: 0.15
   despawnAfterSeconds: 4
   resetLifetimeOnRetarget: 1
+  useFade: 1
+  fadeTime: 1
   damagePerTick: 10
   damageInterval: 0.75
   requiredRootTag: Player
   debugLog: 0
   drawDebugTarget: 0
+--- !u!114 &-2415545148626828211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800319356906399100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02ca893edf828e4da698f66e590c71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHP: 100
+  currentHP: 100
+  arriveDamage: 10
+  hpEnemysFill: {fileID: 0}
+  loadSceneOnDeath: 1
+  sceneToLoadOnDeath: {fileID: 0}
+  sceneName: SC_Level_01
+  loadAsync: 1
+  extraDelay: 0.2
+  debugLog: 0

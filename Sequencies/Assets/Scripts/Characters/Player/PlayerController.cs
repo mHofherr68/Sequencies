@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     [Header("Clap")]
     [SerializeField] private float clapCooldown = 0.6f;
 
-    [Header("Ghost (spawn on clap)")]
+    [Header("Ghost (spawn on clap / noise)")]
     [Tooltip("Optional: im Inspector setzen. Wenn leer, nutzt er GhostSpawner.I (persistent).")]
     [SerializeField] private GhostSpawner ghostSpawner;
+
+    [Tooltip("HÄKCHEN: Wenn true, dürfen Clap/ThrowableNoise einen Ghost auslösen. Wenn false, nie.")]
+    [SerializeField] private bool enableGhostSpawning = true;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -26,12 +29,13 @@ public class PlayerController : MonoBehaviour
     // global movement lock (used by doors, death, cutscenes, etc.)
     private bool movementEnabled = true;
 
+    public bool GhostSpawningEnabled => enableGhostSpawning;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<PlayerAnimationController>();
 
-        // NEW: auto-resolve persistent spawner if inspector ref is missing (Level 2/3 case)
         if (ghostSpawner == null)
             ghostSpawner = GhostSpawner.I;
     }
@@ -79,7 +83,8 @@ public class PlayerController : MonoBehaviour
 
         FX_SoundSystem.I?.PlayHit("Clap", true);
 
-        // NEW: robust spawner selection (works across scenes)
+        if (!enableGhostSpawning) return;
+
         GhostSpawner spawner = ghostSpawner != null ? ghostSpawner : GhostSpawner.I;
         if (spawner != null)
             spawner.SpawnGhostTo(transform.position);
