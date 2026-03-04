@@ -120,6 +120,11 @@ entsprechende Events an das persistente FX_SoundSystem, um passende Geräusche a
 Hier findet auch die Fake Physik statt. Teile der Physik Parameter werden von PlayerThrower.cs (am Player)
 übermittel an ThrowableFlight.cs (die hängt an den Projektilen)
 
+Eine sache gibt es noch. Ich habe eine Bottle, durch Cross ersetzt.
+Diese nutzt intern noch den Bottle Slot!
+
+
+
 Viel Spaß
 
 LG

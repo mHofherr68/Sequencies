@@ -84,7 +84,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -959572109
   m_SortingLayer: 9
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2759743397395473668, guid: 59b52509bde45fe4792381d9e6527457, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -198,8 +198,8 @@ MonoBehaviour:
   arriveDamage: 10
   hpEnemysFill: {fileID: 0}
   loadSceneOnDeath: 1
-  sceneToLoadOnDeath: {fileID: 0}
-  sceneName: SC_Level_01
+  sceneToLoadOnDeath: {fileID: 102900000, guid: 9ab31d29255f6eb469c43e627f896a30, type: 3}
+  sceneName: SC_Winner
   loadAsync: 1
   extraDelay: 0.2
   debugLog: 0

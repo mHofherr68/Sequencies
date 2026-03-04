@@ -145,7 +145,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -165,7 +165,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 194102805
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 21ae12909dfa64464820da55fc494021, type: 3}
@@ -284,10 +284,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5d7d0f2b54dc843be362c6ce28bb45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TopDownMovement2D
-  moveSpeed: 5
+  moveSpeed: 3
   clapCooldown: 0.6
   ghostSpawner: {fileID: 0}
   enableGhostSpawning: 1
+  noiseLightPrefab: {fileID: 5413498188997631549, guid: 46736c8623a5bbe45871affefb66846a, type: 3}
+  spawnLightOnClap: 1
 --- !u!114 &6003955434365988802
 MonoBehaviour:
   m_ObjectHideFlags: 0

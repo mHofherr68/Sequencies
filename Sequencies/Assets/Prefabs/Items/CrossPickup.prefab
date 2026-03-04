@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7716198315380415791}
   - component: {fileID: 5722886631274351296}
   m_Layer: 0
-  m_Name: BottlePickup
+  m_Name: CrossPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 194102805
+  m_SortingLayerID: -959572109
   m_SortingLayer: 9
   m_SortingOrder: 0
   m_MaskInteraction: 0
@@ -157,6 +157,7 @@ MonoBehaviour:
   usable: 0
   healPercent: 0.2
   ghostSpawner: {fileID: 0}
+  noiseLightPrefab: {fileID: 0}
   debugLogs: 0
 --- !u!114 &5722886631274351296
 MonoBehaviour:

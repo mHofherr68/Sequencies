@@ -1,62 +1,49 @@
-/*using UnityEngine;
-
-[RequireComponent(typeof(Collider2D))]
-public class EnemyCrossDamage : MonoBehaviour
-{
-    [Header("Damage")]
-    [SerializeField] private bool damageToEnemy = true;
-
-    [Tooltip("Schaden für den Ghost (z.B. 10 = 10% bei 100HP).")]
-    [SerializeField] private int damageAmount = 10;
-
-    [Header("Debug")]
-    [SerializeField] private bool debugLog = false;
-
-    private bool hasDamaged = false;
-
-    private void Reset()
-    {
-        Collider2D c = GetComponent<Collider2D>();
-        if (c != null)
-            c.isTrigger = true;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!damageToEnemy) return;
-        if (hasDamaged) return;
-
-        EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
-        if (enemy == null) return;
-
-        enemy.Damage(damageAmount);
-
-        hasDamaged = true;
-
-        if (debugLog)
-            Debug.Log($"[EnemyCrossDamage] Ghost damaged for {damageAmount}.", this);
-    }
-}*/
 using UnityEngine;
 
+/// <summary>
+/// Handles damage applied to enemies when they collide with a Cross item.
+/// 
+/// The Cross acts as a reusable damage source that weakens over time.
+/// Each successful hit reduces its damage value until it eventually
+/// reaches zero and destroys itself.
+/// 
+/// The current damage value is stored statically so the Cross keeps its
+/// remaining strength even if the object is picked up, thrown, or respawned.
+/// </summary>
 [RequireComponent(typeof(Collider2D))]
 public class EnemyCrossDamage : MonoBehaviour
 {
     [Header("Damage")]
-    [Tooltip("Startschaden (z.B. 10 = 10% bei 100HP).")]
+
+    [Tooltip("Initial damage dealt to an enemy on contact (e.g. 10 = 10% when enemy has 100 HP).")]
     [SerializeField] private int startDamage = 10;
 
-    [Tooltip("Schaden wird pro Nutzung reduziert.")]
+    [Tooltip("Amount of damage reduction applied after each successful hit.")]
     [SerializeField] private int damageDecay = 2;
 
     [Header("Debug")]
+
+    [Tooltip("Enables debug logging for cross damage events.")]
     [SerializeField] private bool debugLog = false;
 
+    /// <summary>
+    /// Current damage value of the Cross.
+    /// This decreases after each enemy hit.
+    /// </summary>
     [SerializeField] private int currentDamage;
 
-    // merkt sich Damage auch wenn Kreuz aufgehoben und neu gespawnt wird
+    /// <summary>
+    /// Static storage for the Cross damage value.
+    /// 
+    /// This allows the Cross to preserve its remaining damage even if
+    /// it is picked up, thrown, despawned, or respawned later.
+    /// </summary>
     private static int savedDamage = -1;
 
+    /// <summary>
+    /// Initializes the damage value when the Cross instance is created.
+    /// If a saved value exists, it will be restored.
+    /// </summary>
     private void Awake()
     {
         if (savedDamage < 0)
@@ -65,6 +52,10 @@ public class EnemyCrossDamage : MonoBehaviour
         currentDamage = savedDamage;
     }
 
+    /// <summary>
+    /// Ensures the collider is configured as a trigger when the component
+    /// is first added in the editor.
+    /// </summary>
     private void Reset()
     {
         Collider2D c = GetComponent<Collider2D>();
@@ -72,6 +63,13 @@ public class EnemyCrossDamage : MonoBehaviour
             c.isTrigger = true;
     }
 
+    /// <summary>
+    /// Called when another collider enters the Cross trigger.
+    /// 
+    /// If the collider belongs to an enemy with an EnemyHealth component,
+    /// damage will be applied once and the Cross damage value will decrease.
+    /// </summary>
+    /// <param name="other">Collider that entered the trigger area.</param>
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (currentDamage <= 0) return;
@@ -86,7 +84,7 @@ public class EnemyCrossDamage : MonoBehaviour
 
         currentDamage -= damageDecay;
 
-        // Damage speichern (wichtig für Throw ? Respawn)
+        // Save the updated damage value for future Cross instances
         savedDamage = currentDamage;
 
         if (currentDamage <= 0)

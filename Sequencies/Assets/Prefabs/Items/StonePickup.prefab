@@ -79,7 +79,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 194102805
+  m_SortingLayerID: -959572109
   m_SortingLayer: 9
   m_SortingOrder: 0
   m_MaskInteraction: 0
@@ -153,4 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   itemType: 0
   amount: 1
+  usable: 0
+  healPercent: 0.2
+  ghostSpawner: {fileID: 0}
+  noiseLightPrefab: {fileID: 0}
   debugLogs: 0
