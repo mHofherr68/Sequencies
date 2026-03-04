@@ -277,6 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BreakableWindow
   intactRoot: {fileID: 5129425939356057038}
   brokenRoot: {fileID: 9214193115097645045}
+  noiseLightPrefab: {fileID: 3516676756201321944, guid: ae98b09f67882724099568760ee9a895, type: 3}
 --- !u!1 &1851299764968119930
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4078448944895797386
 Transform:
   m_ObjectHideFlags: 0
@@ -1239,7 +1240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5949235219672977647
 Transform:
   m_ObjectHideFlags: 0

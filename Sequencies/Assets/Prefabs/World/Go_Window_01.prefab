@@ -343,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BreakableWindow
   intactRoot: {fileID: 41674611601171275}
   brokenRoot: {fileID: 2919178638911667240}
+  noiseLightPrefab: {fileID: 3516676756201321944, guid: ae98b09f67882724099568760ee9a895, type: 3}
 --- !u!1 &7832087880380134664
 GameObject:
   m_ObjectHideFlags: 0

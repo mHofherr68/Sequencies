@@ -155,6 +155,6 @@ MonoBehaviour:
   amount: 1
   usable: 1
   healPercent: 0.2
-  enableSpawn: 1
   ghostSpawner: {fileID: 0}
+  noiseLightPrefab: {fileID: 5413498188997631549, guid: 46736c8623a5bbe45871affefb66846a, type: 3}
   debugLogs: 0

@@ -113,7 +113,7 @@ public class InventoryUI : MonoBehaviour
         InventoryManager.I.Select(type);
 
         if (InventoryManager.I.GetCount(type) <= 0)
-            ShowMessage($"Kein {GetGermanItemName(type)} im Inventar!");
+            ShowMessage($"Keine {GetGermanItemName(type)} im Inventar!");
     }
 
     private void OnItemChanged(ItemType type, int count, int cap)
@@ -184,10 +184,10 @@ public class InventoryUI : MonoBehaviour
     {
         switch (type)
         {
-            case ItemType.Stone: return "Stein";
-            case ItemType.Book: return "Buch";
-            case ItemType.Bottle: return "Flasche";
-            case ItemType.Drink: return "Getränk";
+            case ItemType.Stone: return "Steine";
+            case ItemType.Book: return "Bücher";
+            case ItemType.Bottle: return "Kreuze";
+            case ItemType.Drink: return "Getränke";
             default: return type.ToString();
         }
     }
